@@ -3,6 +3,7 @@ const URLS = {
   verify: 'https://functions.poehali.dev/ddc2dc9f-2221-4173-9c66-ee45c6b0f4e0',
   me: 'https://functions.poehali.dev/3fa94dfb-7d95-42fe-91e9-8c805ad8f632',
   updateName: 'https://functions.poehali.dev/b67c162e-80ae-4b9a-ba44-d4b6c5e77f7e',
+  usersSearch: 'https://functions.poehali.dev/a2df5b77-a7b4-4e43-8a2a-4ff364a4c5d3',
 };
 
 export function getToken(): string | null {
@@ -18,7 +19,16 @@ export function clearToken() {
   localStorage.removeItem('sc_user');
 }
 
-export async function sendCode(email: string): Promise<{ success: boolean; dev_code?: string; error?: string }> {
+export async function searchUsers(query: string): Promise<{ users: { id: string; name: string; avatar: string; email: string; status: string; online: boolean }[]; error?: string }> {
+  const token = getToken();
+  if (!token) return { users: [] };
+  const res = await fetch(`${URLS.usersSearch}?q=${encodeURIComponent(query)}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.json();
+}
+
+export async function sendCode(email: string): Promise<{ success: boolean; error?: string }> {
   const res = await fetch(URLS.sendCode, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

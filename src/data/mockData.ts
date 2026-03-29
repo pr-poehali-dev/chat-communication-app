@@ -109,14 +109,7 @@ export const chats: Chat[] = [
   },
 ];
 
-export const contacts: Contact[] = [
-  { id: '1', name: 'Алексей Морозов', avatar: 'АМ', status: 'На работе', online: true, phone: '+7 900 123-45-67', email: 'alex@mail.ru' },
-  { id: '2', name: 'Анна Волкова', avatar: 'АВ', status: 'Не беспокоить', online: false, phone: '+7 912 234-56-78', email: 'anna@mail.ru' },
-  { id: '3', name: 'Дмитрий Козлов', avatar: 'ДК', status: 'В дороге', online: false, phone: '+7 923 345-67-89', email: 'dmitry@mail.ru' },
-  { id: '4', name: 'Екатерина Новикова', avatar: 'ЕН', status: 'Онлайн', online: true, phone: '+7 934 456-78-90', email: 'kate@mail.ru' },
-  { id: '5', name: 'Мария Сидорова', avatar: 'МС', status: 'Занята', online: true, phone: '+7 945 567-89-01', email: 'maria@mail.ru' },
-  { id: '6', name: 'Николай Петров', avatar: 'НП', status: 'Был 2 часа назад', online: false, phone: '+7 956 678-90-12', email: 'nick@mail.ru' },
-];
+export const contacts: Contact[] = [];
 
 export const notifications: Notification[] = [
   { id: '1', type: 'message', title: 'Алексей Морозов', text: 'Отправил вам новое сообщение', time: '5 мин назад', read: false, avatar: 'АМ' },

@@ -15,7 +15,7 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [devCode, setDevCode] = useState('');
+
 
   const [resendTimer, setResendTimer] = useState(0);
   const [pendingAuth, setPendingAuth] = useState<{ token: string; user: { id: number; email: string; name: string; username: string; status: string } } | null>(null);
@@ -35,7 +35,6 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
     const res = await sendCode(email);
     setLoading(false);
     if (res.error) { setError(res.error); return; }
-    if (res.dev_code) setDevCode(res.dev_code);
     setResendTimer(60);
     setStep('code');
     setTimeout(() => codeRefs.current[0]?.focus(), 100);
@@ -157,7 +156,7 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
           {step === 'code' && (
             <div className="animate-fade-in">
               <button
-                onClick={() => { setStep('email'); setCode(['','','','','','']); setError(''); setDevCode(''); }}
+                onClick={() => { setStep('email'); setCode(['','','','','','']); setError(''); }}
                 className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors mb-4"
               >
                 <Icon name="ChevronLeft" size={14} />
@@ -167,13 +166,6 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
               <p className="text-sm text-muted-foreground mb-5">
                 Отправили код на <span className="text-foreground font-medium">{email}</span>
               </p>
-
-              {devCode && (
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 mb-4">
-                  <Icon name="Info" size={14} className="text-amber-400 flex-shrink-0" />
-                  <p className="text-xs text-amber-300">Код для теста: <span className="font-bold text-amber-200">{devCode}</span></p>
-                </div>
-              )}
 
               <div className="flex gap-2 justify-center mb-4">
                 {code.map((d, i) => (

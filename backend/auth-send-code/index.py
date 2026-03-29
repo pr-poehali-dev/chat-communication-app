@@ -92,8 +92,6 @@ def handler(event: dict, context) -> dict:
         pass
 
     response_body = {'success': True, 'email': email}
-    if not email_sent:
-        response_body['dev_code'] = code
 
     return {
         'statusCode': 200,
