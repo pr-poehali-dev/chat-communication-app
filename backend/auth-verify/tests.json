@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "name": "Неверный код",
+      "method": "POST",
+      "path": "/",
+      "body": {"email": "test@example.com", "code": "000000"},
+      "expectedStatus": 401,
+      "expectedBody": {"error": "Неверный или просроченный код"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Пустые поля",
+      "method": "POST",
+      "path": "/",
+      "body": {},
+      "expectedStatus": 400,
+      "expectedBody": {"error": "Укажите email и код"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

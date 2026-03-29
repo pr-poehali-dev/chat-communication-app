@@ -1,7 +1,34 @@
 import Avatar from './Avatar';
 import Icon from '@/components/ui/icon';
 
-export default function ProfileSection() {
+interface User {
+  id: number;
+  email: string;
+  name: string;
+  username: string;
+  status: string;
+}
+
+interface ProfileSectionProps {
+  user: User;
+  onLogout: () => void;
+}
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(' ');
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
+
+export default function ProfileSection({ user, onLogout }: ProfileSectionProps) {
+  const initials = getInitials(user.name || user.email);
+
+  const fields = [
+    { icon: 'User', label: 'Имя', value: user.name || '—' },
+    { icon: 'Mail', label: 'Email', value: user.email },
+    { icon: 'AtSign', label: 'Username', value: user.username ? `@${user.username}` : '—' },
+  ];
+
   return (
     <div className="flex flex-col h-full">
       <div className="px-4 pt-5 pb-3">
@@ -11,13 +38,15 @@ export default function ProfileSection() {
       <div className="flex-1 overflow-y-auto px-4 space-y-3">
         <div className="glass rounded-3xl p-5 flex flex-col items-center text-center">
           <div className="relative mb-3">
-            <Avatar initials="ВВ" size="xl" gradient={0} />
+            <Avatar initials={initials} size="xl" gradient={0} />
             <button className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full gradient-bg flex items-center justify-center border-2 border-[hsl(var(--background))] hover:scale-110 transition-transform">
               <Icon name="Camera" size={12} className="text-white" />
             </button>
           </div>
-          <h2 className="text-lg font-bold mb-0.5">Владимир Васильев</h2>
-          <p className="text-sm text-muted-foreground mb-3">@vladv · Онлайн</p>
+          <h2 className="text-lg font-bold mb-0.5">{user.name || 'Пользователь'}</h2>
+          <p className="text-sm text-muted-foreground mb-3">
+            {user.username ? `@${user.username}` : user.email} · Онлайн
+          </p>
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
             <Icon name="Lock" size={12} className="text-green-400" />
             <span className="text-xs text-green-400 font-medium">Сквозное шифрование активно</span>
@@ -31,22 +60,17 @@ export default function ProfileSection() {
           <div className="px-4 py-3">
             <input
               type="text"
-              defaultValue="На связи и готов к работе 🚀"
+              defaultValue={user.status || 'Привет, я в SecureChat!'}
               className="w-full bg-transparent text-sm text-foreground focus:outline-none"
             />
           </div>
         </div>
 
         <div className="glass rounded-2xl overflow-hidden">
-          {[
-            { icon: 'User', label: 'Имя', value: 'Владимир Васильев' },
-            { icon: 'Phone', label: 'Телефон', value: '+7 900 000-00-00' },
-            { icon: 'Mail', label: 'Email', value: 'vlad@mail.ru' },
-            { icon: 'AtSign', label: 'Username', value: '@vladv' },
-          ].map((item, i, arr) => (
+          {fields.map((item, i) => (
             <div
               key={item.label}
-              className={`flex items-center gap-3 px-4 py-3.5 hover:bg-white/5 cursor-pointer transition-colors ${i < arr.length - 1 ? 'border-b border-white/5' : ''}`}
+              className={`flex items-center gap-3 px-4 py-3.5 hover:bg-white/5 cursor-pointer transition-colors ${i < fields.length - 1 ? 'border-b border-white/5' : ''}`}
             >
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                 <Icon name={item.icon} size={14} className="text-primary" fallback="User" />
@@ -73,7 +97,10 @@ export default function ProfileSection() {
           </div>
         </div>
 
-        <button className="w-full glass rounded-2xl px-4 py-3.5 flex items-center gap-3 hover:bg-red-500/5 hover:border-red-500/20 transition-all group">
+        <button
+          onClick={onLogout}
+          className="w-full glass rounded-2xl px-4 py-3.5 flex items-center gap-3 hover:bg-red-500/5 hover:border-red-500/20 transition-all group"
+        >
           <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center">
             <Icon name="LogOut" size={14} className="text-red-400" />
           </div>

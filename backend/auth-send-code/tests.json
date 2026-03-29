@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "name": "Запрос кода на email",
+      "method": "POST",
+      "path": "/",
+      "body": {"email": "test@example.com"},
+      "expectedStatus": 200,
+      "expectedBody": {"success": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Невалидный email",
+      "method": "POST",
+      "path": "/",
+      "body": {"email": "notanemail"},
+      "expectedStatus": 400,
+      "expectedBody": {"error": "Введите корректный email"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {
+      "name": "Запрос без токена",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 401,
+      "expectedBody": {"error": "Необходима авторизация"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

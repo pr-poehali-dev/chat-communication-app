@@ -28,7 +28,20 @@ const bottomNavItems: NavItem[] = [
   { id: 'profile', icon: 'User', label: 'Профиль' },
 ];
 
-export default function Index() {
+interface User {
+  id: number;
+  email: string;
+  name: string;
+  username: string;
+  status: string;
+}
+
+interface IndexProps {
+  user: User;
+  onLogout: () => void;
+}
+
+export default function Index({ user, onLogout }: IndexProps) {
   const [activeTab, setActiveTab] = useState<Tab>('chats');
   const [animKey, setAnimKey] = useState(0);
 
@@ -43,7 +56,7 @@ export default function Index() {
     contacts: <ContactsSection />,
     search: <SearchSection />,
     notifications: <NotificationsSection />,
-    profile: <ProfileSection />,
+    profile: <ProfileSection user={user} onLogout={onLogout} />,
     settings: <SettingsSection />,
   };
 
