@@ -122,7 +122,7 @@ export default function SettingsSection() {
         ))}
 
         <div className="text-center py-4">
-          <p className="text-xs text-muted-foreground">SecureChat v1.0.0</p>
+          <p className="text-xs text-muted-foreground">Чат Да! v1.0.0</p>
           <p className="text-[10px] text-muted-foreground/50 mt-0.5">Все сообщения защищены сквозным шифрованием</p>
         </div>
 

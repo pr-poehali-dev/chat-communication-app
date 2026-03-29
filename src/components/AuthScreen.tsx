@@ -108,7 +108,7 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
               <Icon name="Zap" size={28} className="text-white" />
             </div>
             <div className="text-center">
-              <h1 className="text-2xl font-black gradient-text">SecureChat</h1>
+              <h1 className="text-2xl font-black gradient-text">Чат Да!</h1>
               <p className="text-xs text-muted-foreground mt-0.5">Защищённый мессенджер</p>
             </div>
           </div>

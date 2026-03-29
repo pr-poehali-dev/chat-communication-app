@@ -60,7 +60,7 @@ export default function ProfileSection({ user, onLogout }: ProfileSectionProps) 
           <div className="px-4 py-3">
             <input
               type="text"
-              defaultValue={user.status || 'Привет, я в SecureChat!'}
+              defaultValue={user.status || 'Привет, я в Чат Да!'}
               className="w-full bg-transparent text-sm text-foreground focus:outline-none"
             />
           </div>
