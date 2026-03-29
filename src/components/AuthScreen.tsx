@@ -16,8 +16,9 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [devCode, setDevCode] = useState('');
-  const [isNew, setIsNew] = useState(false);
+
   const [resendTimer, setResendTimer] = useState(0);
+  const [pendingAuth, setPendingAuth] = useState<{ token: string; user: { id: number; email: string; name: string; username: string; status: string } } | null>(null);
   const codeRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
@@ -65,29 +66,32 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
     }
   };
 
-  const handleVerify = async (nameVal?: string) => {
+  const handleVerify = async () => {
     const fullCode = code.join('');
     if (fullCode.length < 6) { setError('Введите 6-значный код'); return; }
     setError('');
     setLoading(true);
-    const res = await verifyCode(email, fullCode, nameVal);
+    const res = await verifyCode(email, fullCode);
     setLoading(false);
     if (res.error) { setError(res.error); setCode(['','','','','','']); codeRefs.current[0]?.focus(); return; }
-    if (res.is_new && !nameVal) {
-      setIsNew(true);
+    if (!res.token || !res.user) { setError('Ошибка сервера, попробуйте снова'); return; }
+    if (res.is_new) {
+      setPendingAuth({ token: res.token, user: res.user });
       setStep('name');
       return;
     }
-    if (res.token && res.user) {
-      setToken(res.token);
-      localStorage.setItem('sc_user', JSON.stringify(res.user));
-      onAuth(res.user);
-    }
+    setToken(res.token);
+    localStorage.setItem('sc_user', JSON.stringify(res.user));
+    onAuth(res.user);
   };
 
-  const handleNameSubmit = async () => {
+  const handleNameSubmit = () => {
     if (!name.trim()) { setError('Введите ваше имя'); return; }
-    await handleVerify(name.trim());
+    if (!pendingAuth) return;
+    const updatedUser = { ...pendingAuth.user, name: name.trim() };
+    setToken(pendingAuth.token);
+    localStorage.setItem('sc_user', JSON.stringify(updatedUser));
+    onAuth(updatedUser);
   };
 
   return (
@@ -247,15 +251,9 @@ export default function AuthScreen({ onAuth }: AuthScreenProps) {
                 )}
                 <button
                   onClick={handleNameSubmit}
-                  disabled={loading}
-                  className="w-full gradient-bg text-white font-semibold py-3 rounded-2xl transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 glow-effect"
+                  className="w-full gradient-bg text-white font-semibold py-3 rounded-2xl transition-all hover:opacity-90 active:scale-95 glow-effect"
                 >
-                  {loading ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <Icon name="Loader2" size={16} className="animate-spin" />
-                      Создаём аккаунт...
-                    </span>
-                  ) : 'Начать общение'}
+                  Начать общение
                 </button>
               </div>
             </div>

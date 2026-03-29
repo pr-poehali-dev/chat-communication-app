@@ -1,4 +1,5 @@
 {
+  "auth-update-name": "https://functions.poehali.dev/b67c162e-80ae-4b9a-ba44-d4b6c5e77f7e",
   "auth-send-code": "https://functions.poehali.dev/3b94d294-c3f0-4784-b301-d3d6224e8c54",
   "auth-me": "https://functions.poehali.dev/3fa94dfb-7d95-42fe-91e9-8c805ad8f632",
   "auth-verify": "https://functions.poehali.dev/ddc2dc9f-2221-4173-9c66-ee45c6b0f4e0"

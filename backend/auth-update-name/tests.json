@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {
+      "name": "Без токена",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Иван"},
+      "expectedStatus": 401,
+      "expectedBody": {"error": "Необходима авторизация"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}
